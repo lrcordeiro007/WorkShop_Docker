@@ -1,0 +1,175 @@
+=========================================================
+  🐳  PRINCIPAIS COMANDOS DO DOCKER - REFERÊNCIA RÁPIDA
+=========================================================
+
+----------------------------------------------------------
+  🔨 BUILD E EXECUÇÃO
+----------------------------------------------------------
+
+docker compose up --build
+  → Sobe todos os serviços definidos no docker-compose.yml
+    e reconstrói as imagens do zero antes de iniciar.
+    Use sempre que alterar o Dockerfile ou dependencies.
+
+docker compose up --build -d
+  → Mesmo que o anterior, mas em modo "detached" (background).
+    O terminal fica livre enquanto os containers rodam.
+
+docker compose up
+  → Sobe os serviços sem reconstruir as imagens.
+    Útil quando o código não mudou, apenas quer reiniciar.
+
+docker compose up -d
+  → Sobe os serviços em background sem reconstruir.
+
+docker compose down
+  → Para e remove todos os containers do projeto.
+    Os volumes (dados do banco) são mantidos por padrão.
+
+docker compose down -v
+  → Para e remove os containers E os volumes.
+    ⚠️ Isso apaga os dados do banco de dados!
+
+docker compose restart
+  → Reinicia todos os serviços sem recriar os containers.
+
+----------------------------------------------------------
+  📋 LISTAGEM E MONITORAMENTO
+----------------------------------------------------------
+
+docker ps
+  → Lista todos os containers que estão RODANDO no momento.
+    Mostra: ID, imagem, comando, criação, status e portas.
+
+docker ps -a
+  → Lista TODOS os containers, incluindo os parados.
+
+docker compose ps
+  → Lista os containers do projeto atual (compose).
+
+docker compose logs
+  → Exibe os logs de todos os serviços do projeto.
+
+docker compose logs -f
+  → Exibe os logs em tempo real (follow mode).
+    Pressione Ctrl+C para sair.
+
+docker compose logs backend
+  → Exibe logs de um serviço específico (ex: backend).
+
+docker stats
+  → Mostra uso de CPU, memória e rede em tempo real
+    para todos os containers em execução.
+
+----------------------------------------------------------
+  🧹 LIMPEZA
+----------------------------------------------------------
+
+docker image prune
+  → Remove imagens "dangling" (sem tag, não usadas).
+    Útil para liberar espaço após rebuilds.
+
+docker image prune -a
+  → Remove TODAS as imagens não usadas por nenhum container.
+    ⚠️ Use com cuidado!
+
+docker container prune
+  → Remove todos os containers parados.
+
+docker volume prune
+  → Remove todos os volumes não utilizados.
+    ⚠️ Pode apagar dados persistidos!
+
+docker system prune
+  → Remove containers parados, redes não usadas,
+    imagens dangling e cache de build.
+
+docker system prune -a
+  → Limpeza completa: tudo que não está em uso.
+    ⚠️ Use apenas quando quiser um ambiente limpo do zero.
+
+----------------------------------------------------------
+  🖼️ IMAGENS
+----------------------------------------------------------
+
+docker images
+  → Lista todas as imagens disponíveis localmente.
+    Mostra: repositório, tag, ID, criação e tamanho.
+
+docker build -t nome-da-imagem .
+  → Constrói uma imagem a partir do Dockerfile
+    no diretório atual (.) com a tag especificada.
+
+docker rmi nome-da-imagem
+  → Remove uma imagem específica pelo nome ou ID.
+
+docker pull nome-da-imagem:tag
+  → Baixa uma imagem do Docker Hub (ex: python:3.11-slim).
+
+----------------------------------------------------------
+  🔍 INSPECIONAR E ACESSAR CONTAINERS
+----------------------------------------------------------
+
+docker exec -it nome-do-container bash
+  → Abre um terminal interativo dentro do container.
+    Substitua "bash" por "sh" se bash não estiver disponível.
+
+docker exec -it nome-do-container python
+  → Abre o shell Python dentro do container.
+
+docker inspect nome-do-container
+  → Exibe informações detalhadas do container em JSON
+    (rede, volumes, variáveis de ambiente, etc.).
+
+docker logs nome-do-container
+  → Exibe os logs de um container específico.
+
+docker logs -f nome-do-container
+  → Exibe logs em tempo real de um container específico.
+
+----------------------------------------------------------
+  🌐 REDES E VOLUMES
+----------------------------------------------------------
+
+docker network ls
+  → Lista todas as redes Docker existentes.
+
+docker network inspect nome-da-rede
+  → Exibe detalhes de uma rede específica.
+
+docker volume ls
+  → Lista todos os volumes Docker existentes.
+
+docker volume inspect nome-do-volume
+  → Exibe detalhes de um volume específico.
+
+----------------------------------------------------------
+  ℹ️  INFORMAÇÕES GERAIS
+----------------------------------------------------------
+
+docker --version
+  → Exibe a versão instalada do Docker.
+
+docker compose version
+  → Exibe a versão instalada do Docker Compose.
+
+docker info
+  → Exibe informações completas sobre o ambiente Docker
+    (containers, imagens, drivers, recursos do sistema).
+
+=========================================================
+  💡 DICAS RÁPIDAS
+=========================================================
+
+• Use "docker compose" (com espaço) — é a versão moderna.
+  O antigo "docker-compose" (com hífen) está deprecado.
+
+• Sempre use --build quando alterar o Dockerfile ou
+  o requirements.txt, senão as mudanças não terão efeito.
+
+• Para resetar tudo e começar do zero:
+    docker compose down -v && docker system prune -a
+
+• O nome dos containers segue o padrão:
+    <pasta-do-projeto>-<nome-do-serviço>-1
+=========================================================
