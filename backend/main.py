@@ -7,6 +7,13 @@ from models import Post
 
 app = FastAPI(title="Workshop Docker - FastAPI + Postgres")
 
+@app.on_event("startup")
+def startup_event():
+    print("\n" + "=" * 50)
+    print("APLICAÇÃO PRONTA E RODANDO!")
+    print("Acesse no seu navegador: http://localhost:8000")
+    print("=" * 50 + "\n")
+
 # Cria as tabelas no banco de dados na inicialização
 Base.metadata.create_all(bind=engine)
 
